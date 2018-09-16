@@ -1,5 +1,6 @@
 package com.sunducation.waterflow.config;
 
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -37,7 +38,9 @@ public class MybatisSchoolDbConfig {
 
     @Bean(name = "sqlSessionTemplate1")
     public SqlSessionTemplate sqlSessionTemplate1() throws Exception {
+        // 批量插入
         SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory1()); // 使用上面配置的Factory
+//        SqlSessionTemplate template = new SqlSessionTemplate(sqlSessionFactory1(), ExecutorType.BATCH);
         return template;
     }
 

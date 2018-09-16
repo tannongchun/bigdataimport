@@ -26,7 +26,7 @@ public class ImportDataServiceImpl  implements ImportDataService {
     long startMini = System.currentTimeMillis();
     final BlockingQueue<DataDTO> results = new LinkedBlockingQueue<DataDTO>();
     // 多线程插入
-    final CyclicBarrier barrier = new CyclicBarrier(5);
+    final CyclicBarrier barrier = new CyclicBarrier(6);
     ExecutorService executorService = Executors.newFixedThreadPool(5);
     executorService.execute(new Runnable() {
       @Override
@@ -51,7 +51,6 @@ public class ImportDataServiceImpl  implements ImportDataService {
     barrier.await();
     executorService.shutdown();
     System.out.println("执行完成");
-
     System.out.println(results.size());
     long endMini = System.currentTimeMillis();
     System.out.println(" take time is " + (endMini - startMini)/1000.0);

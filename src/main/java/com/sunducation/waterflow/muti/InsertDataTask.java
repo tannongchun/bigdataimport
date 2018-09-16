@@ -3,6 +3,7 @@ package com.sunducation.waterflow.muti;
 import com.sunducation.waterflow.dao.mapper.ImportDataMapper;
 import com.sunducation.waterflow.dto.DataDTO;
 import com.sunducation.waterflow.utils.SpringContextUtils;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import java.util.concurrent.locks.ReentrantLock;
 public class InsertDataTask implements Runnable {
 
   private ImportDataMapper importDataMapper;
+
+  private SqlSession sqlSession = null;
 
   private final BlockingQueue<DataDTO> queue;
 
