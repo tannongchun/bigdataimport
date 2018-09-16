@@ -1,0 +1,17 @@
+### druid related log config
+log4j.rootLogger=ERROR,SYS,SVC,DruidStat,DruidSql
+log4j.logger.com.alibaba.druid.filter.stat=INFO,DruidSql
+log4j.additivity.com.alibaba.druid.filter.stat=false
+
+log4j.logger.com.alibaba.druid.pool=INFO,DruidStat
+log4j.additivity.com.alibaba.druid.pool=false
+
+log4j.appender.DruidStat=org.apache.log4j.RollingFileAppender
+log4j.appender.DruidStat.File=${catalina.home}/xxxLogs/druid_logs/druid_stat.log
+log4j.appender.DruidStat.layout=org.apache.log4j.PatternLayout
+log4j.appender.DruidStat.layout.ConversionPattern=%d - %c [%t] %-5p %x - %m%n
+
+log4j.appender.DruidSql=org.apache.log4j.RollingFileAppender
+log4j.appender.DruidSql.File=${catalina.home}/xxxLogs/druid_logs/druid_sql.log
+log4j.appender.DruidSql.layout=org.apache.log4j.PatternLayout
+log4j.appender.DruidSql.layout.ConversionPattern=%d - %c [%t] %-5p %x - %m%n

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>导入大批量的数据</title>
+    <script type="text/javascript" th:src="@{/js/jquery-1.11.3.min.js}"></script>
+    <script th:src="@{/js/initChart.js}"></script>
+    <style type="text/css">
+    .item {
+        padding: 5px 10px;
+        background-color: #ccc;
+    }
+     #imporfile {
+         display: inline-block;
+         background-color: #12e845;
+         padding: 5px 10px;
+         border-radius: 7px;
+         color: #fff;
+     }
+    .input_inner{
+        padding: 5px 5px;
+        border-radius: 12px;
+        width: 300px;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="wraper" style="width:500px;">
+        <span class="item" id="fileselect" style="cursor: pointer" onclick="fileupload.click()">选择文件</span>
+        <input  id ='fileupload'  name = "fileupload"  type="file"  multiple accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"  style="display: none"  onchange="filename.value= this.value" />
+        <input class="input_inner"  id ='filename' name = "filename" style="width: 300px" readonly  type="text" />
+        <span class="item"  style="cursor: pointer" id="imporfile">确定导入</span>
+    </div>
+</body>
+</html>
