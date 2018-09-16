@@ -19,7 +19,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @description: 另外线程插入
  * @projectName: com.kongxiang.muti
  * @className: DesignModel
- * @author:谭农春
+ * @author:tannc
  * @createTime:2018/9/15 9:36
  */
 public class InsertDataTask implements Runnable {
