@@ -37,7 +37,7 @@ public class UploadFileController {
       // Excel 2007版9
       if( null != prefix && prefix.equalsIgnoreCase("xlsx")){
         // 返回记录数
-        Long count= null;
+        double count= 0.0d;
         try {
           File f = null;
           f=File.createTempFile("tmp", null);

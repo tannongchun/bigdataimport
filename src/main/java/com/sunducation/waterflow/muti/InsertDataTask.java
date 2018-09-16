@@ -3,7 +3,6 @@ package com.sunducation.waterflow.muti;
 import com.sunducation.waterflow.dao.mapper.ImportDataMapper;
 import com.sunducation.waterflow.dto.DataDTO;
 import com.sunducation.waterflow.utils.SpringContextUtils;
-import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -25,9 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class InsertDataTask implements Runnable {
 
-  private ImportDataMapper importDataMapper;
-
-  private SqlSession sqlSession = null;
+  private final ImportDataMapper importDataMapper;
 
   private final BlockingQueue<DataDTO> queue;
 
@@ -43,41 +40,41 @@ public class InsertDataTask implements Runnable {
 
   @Override
   public void run() {
-     List<DataDTO> list = new ArrayList<DataDTO>(256);
+    List<DataDTO> list = new ArrayList<DataDTO>(256);
     final ReentrantLock lock = new ReentrantLock();
     while (!queue.isEmpty()) {
-          lock.lock();
-          list.clear();
-          // 出栈
-          queue.drainTo(list,10000);
-          //分批处理
-        if(null!=list&&list.size()>0){
-          System.err.println(taskName + " 插入size +++> " + list.size());
-          int pointsDataLimit = 10000;//限制条数
-          Integer size = list.size();
-          //判断是否有必要分批
-          if(pointsDataLimit<size){
-            int part = size/pointsDataLimit;//分批数
-            // System.out.println("共有 ： "+size+"条，！"+" 分为 ："+part+"批");
-            //
-            for (int i = 0; i < part; i++) {
-              //1000条
-              List<DataDTO> listPage = list.subList(0, pointsDataLimit);
-              importDataMapper.batchInsert(listPage);
-              //剔除
-              list.subList(0, pointsDataLimit).clear();
-            }
-            if(!list.isEmpty()){
-              //表示最后剩下的数据
-              importDataMapper.batchInsert(list);
-            }
-          }else{
+      lock.lock();
+      list.clear();
+      // 出栈
+      queue.drainTo(list,10000);
+      //分批处理
+      if(null!=list&&list.size()>0){
+//        System.err.println(taskName + " 插入size +++> " + list.size());
+        int pointsDataLimit = 10000;//限制条数
+        Integer size = list.size();
+        //判断是否有必要分批
+        if(pointsDataLimit<size){
+          int part = size/pointsDataLimit;//分批数
+          // System.out.println("共有 ： "+size+"条，！"+" 分为 ："+part+"批");
+          //
+          for (int i = 0; i < part; i++) {
+            //1000条
+            List<DataDTO> listPage = list.subList(0, pointsDataLimit);
+            importDataMapper.batchInsert(listPage);
+            //剔除
+            list.subList(0, pointsDataLimit).clear();
+          }
+          if(!list.isEmpty()){
+            //表示最后剩下的数据
             importDataMapper.batchInsert(list);
           }
-        } // end if
+        }else{
+          importDataMapper.batchInsert(list);
+        }
+      } // end if
       if (queue.isEmpty()){
         try {
-          Thread.sleep(1000);
+          Thread.sleep(500);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
